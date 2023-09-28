@@ -25,6 +25,7 @@ function insert_post($title, $excerpt, $content) {
 
 function get_post($post_id) {
   global $app_db;
+  $post_id = intval($post_id);
   $query = "SELECT * FROM posts WHERE id = " . $post_id;
   $result = mysqli_query($app_db, $query);
 
@@ -37,8 +38,15 @@ function get_post($post_id) {
 
 function delete_post($id) {
   global $app_db;
+  $id = intval($id);
   $result = mysqli_query($app_db, "DELETE FROM posts WHERE id= $id");
   if(!$result) {
     die(mysqli_error($app_db));
   }
+}
+
+function filter_string_polyfill(string $string): string
+{
+    $str = preg_replace('/\x00|<[^>]*>?/', '', $string);
+    return str_replace(["'", '"'], ['&#39;', '&#34;'], $str);
 }

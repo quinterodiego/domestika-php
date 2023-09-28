@@ -9,3 +9,5 @@ define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('DB_DATABASE', 'microcms');
 define('DB_PORT', 3306);
+define('ADMIN_USER', 'diego');
+define('ADMIN_PASSWORD', '123456');

@@ -7,8 +7,8 @@ $excerpt = '';
 $content = '';
 
 if(isset($_POST['submit-new-post'])) {
-  $title = $_POST['title'];
-  $excerpt = $_POST['excerpt'];
+  $title = filter_string_polyfill($_POST['title']);
+  $excerpt = filter_string_polyfill($_POST['excerpt']);
   $content = $_POST['content'];
   
   if(empty($title) || empty($content)){

@@ -3,6 +3,9 @@ require('init.php');
 
 if(isset($_GET['delete-post'])) {
   $id = $_GET['delete-post'];
+  if(!check_hash('delete-post-' . $id, $_GET['hash'])) {
+    die('Hackeando, no?');
+  }
   delete_post($id);
   redirect_to('index.php');
 }
@@ -47,7 +50,7 @@ if(isset($_GET['success'])) :
     <footer>
       <span class="post-date">Publicada en: <?php echo date('m-d-Y') ?></span></footer>
       <div class="delete-post">
-        <a href="?delete-post=<?php echo $post['id']; ?>">Eliminar post</a>
+        <a href="?delete-post=<?php echo $post['id']; ?>&hash=<?php echo generate_hash('delete-post-' . $post['id']); ?>">Eliminar post</a>
       </div>
   </article>
   <?php
