@@ -23,7 +23,7 @@ function is_logged_in() {
 }
 
 function login($user, $password) {
-  if($user === ADMIN_USER && $password === ADMIN_PASS) {
+  if($user === ADMIN_USER && $password === ADMIN_PASSWORD) {
     $_SESSION['user'] = ADMIN_USER;
     return true;
   }
