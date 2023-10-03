@@ -14,13 +14,13 @@
 			<a href="index.php">Micro CMS</a>
 		</h1>
 		<ul class="main-menu column clearfix">
-			<li><a href="<?php echo SITE_URL; ?>index.php">Blog</a></li>
-			<li><a href="<?php echo SITE_URL; ?>new-post.php">Nueva Entrada</a></li>
+			<li><a href="<?php echo SITE_URL; ?>/index.php">Blog</a></li>
+			<li><a href="<?php echo SITE_URL; ?>/new-post.php">Nueva Entrada</a></li>
       <?php if(is_logged_in()): ?>
         <li><a href="<?php echo SITE_URL; ?>?logout=true">Logout</a></li>
-        <li><a href="<?php echo SITE_URL; ?>admin">Administracion</a></li>
+        <li><a href="<?php echo SITE_URL; ?>/admin">Administracion</a></li>
       <?php else: ?>
-        <li><a href="<?php echo SITE_URL; ?>login.php">Login</a></li>
+        <li><a href="<?php echo SITE_URL; ?>/login.php">Login</a></li>
       <?php endif; ?>
 		</ul>
 	</div>
