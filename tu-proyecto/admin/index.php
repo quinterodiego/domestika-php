@@ -1,46 +1,57 @@
 <?php
 
 require '../init.php';
-if(!is_logged_in()) {
-  redirect_to('index.php');
+
+if ( ! is_logged_in() ) {
+	redirect_to( 'login.php' );
 }
 
-$action = '';
+$action = isset( $_GET['action'] ) ? $_GET['action'] : '';
 
-if(isset($_GET['action'])) {
-  $action = $_GET['action'];
+switch ( $action ) {
+	case 'list-posts': {
+		if ( isset( $_GET['delete-post'] ) ) {
+			$id = $_GET['delete-post'];
+			if ( ! check_hash( 'delete-post-' . $id, $_GET['hash'] ) ) {
+				die( 'Hackeando, no?' );
+			}
+
+			delete_post( $id );
+			redirect_to( 'admin?action=list-posts' );
+			die();
+		}
+
+		$all_posts = get_all_posts();
+		require 'templates/list-posts.php';
+		break;
+	}
+	case 'new-post': {
+		$error = false;
+		$title = '';
+		$excerpt = '';
+		$content = '';
+
+		if ( isset( $_POST['submit-new-post'] ) ) {
+
+			// Se ha enviado el formulario
+			$title = filter_input( INPUT_POST, 'title', FILTER_SANITIZE_STRING );
+			$excerpt = filter_input( INPUT_POST, 'excerpt', FILTER_SANITIZE_STRING );
+			$content = strip_tags( $_POST['content'], '<br><p><a><img><div>' );
+
+			if ( empty( $title ) || empty( $content ) ) {
+				$error = true;
+			}
+			else {
+				insert_post( $title, $excerpt, $content );
+				// Redirigir al blog
+				redirect_to( 'admin?action=list-posts&success=true' );
+			}
+		}
+
+		require 'templates/new-post.php';
+		break;
+	}
+	default: {
+		require 'templates/admin.php';
+	}
 }
-
-switch ($action) {
-  case 'new-post':
-    # code...
-    break;
-  
-  case 'list-posts':
-    $all_posts = get_all_posts();
-    ?>
-    <?php require __DIR__ . '/../templates/header.php'; ?>
-
-    <?php if(isset($_GET['success'])) : ?>
-      <div class="success">
-        El post ha sido creado
-      </div>
-    <?php endif; ?>
-    <table>
-      <?php foreach($all_posts as $post) : ?>
-        <tr>
-          <td><?php echo $post['title']; ?></td>
-          <td><a href="<?php echo SITE_URL . '/admin?action=list-posts&delete-post=' . $post['id'] ?>&hash=<?php echo generate_hash('delete-post-' . $post['id']); ?>">Eliminar post</a></td>
-        </tr>
-      <?php endforeach; ?>
-    </table>
-    <?php require __DIR__ . '../../templates/footer.php'; ?>
-    <?php
-    break;
-  
-  default: 
-    require 'templates/admin.php';
-  
-}
-
-?>

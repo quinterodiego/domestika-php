@@ -10,7 +10,7 @@ function generate_hash($action) {
 }
 
 function check_hash($action, $hash) {
-  if(generate_hash($action) === $hash) {
+  if(generate_hash($action) == $hash) {
     return true;
   }
 

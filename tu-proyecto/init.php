@@ -8,13 +8,11 @@ session_start();
 
 require('config.php');
 
-$app_db = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT);
-if($app_db == false) {
-  die('Error al conectar con la base de datos');
-}
-
+require('inc/class-db.php');
 require('inc/posts.php');
 require('inc/helpers.php');
+
+$app_db = new DB(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT);
 
 if(isset($_GET['logout'])) {
   logout();
